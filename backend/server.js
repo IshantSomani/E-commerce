@@ -93,7 +93,7 @@ app.post("/create-checkout-session", async (req, res) => {
 });
 
 // Handle payment success
-app.get("/payment-success", async (req, res) => {
+app.get(`${process.env.FRONTEND_URL}/payment-success`, async (req, res) => {
   const { session_id } = req.query;
   // console.log("session_id: ", session_id);
 
