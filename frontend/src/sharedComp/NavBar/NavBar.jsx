@@ -40,7 +40,7 @@ const NavBar = () => {
             <div className='container mx-auto px-4 py-3 flex justify-around items-center'>
                 <Link to="/" className='transition duration-300 h-[60px]'>
                        {/* <Logo /> */}
-                       <img src={LOGO} alt="GLORY" className='h-[70px]' style={{filter: "drop-shadow(0.35rem 0.35rem 0.4rem rgba(0, 0, 0, 0.5))"}}/>
+                       <img src={LOGO} alt="GLORY" className='h-[55px]' style={{filter: "drop-shadow(0.35rem 0.35rem 0.4rem rgba(0, 0, 0, 0.5))"}}/>
                 </Link>
                 <div className='flex-1 max-w-xl mx-4'></div>
                 <div className='flex items-center space-x-4'>
