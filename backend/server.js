@@ -22,7 +22,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.get("/", (req, res) => {
   // http:..localhost:3000
-  res.send("<<Ecommerce Website>>");
+  res.send("Hello ");
 });
 
 // console.log(process.env.PUBLISHABLE_KEY);
