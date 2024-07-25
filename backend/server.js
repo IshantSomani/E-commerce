@@ -60,8 +60,8 @@ app.post("/create-checkout-session", async (req, res) => {
     payment_method_types: ["card"],
     line_items: lineItems,
     mode: "payment",
-    success_url: `${process.env.BACKEND_URL}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${process.env.FRONTEND_URL}/payment-cancel`,
+    success_url: `${process.env.BACKEND_URL}/paymentsuccess?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${process.env.FRONTEND_URL}/paymentcancel`,
     metadata: {
       userId,
       customerName,
@@ -93,7 +93,7 @@ app.post("/create-checkout-session", async (req, res) => {
 });
 
 // Handle payment success
-app.get(`/payment-success`, async (req, res) => {
+app.get(`/paymentsuccess`, async (req, res) => {
   const { session_id } = req.query;
   // console.log("session_id: ", session_id);
 
@@ -140,9 +140,9 @@ app.get(`/payment-success`, async (req, res) => {
       console.log("Order: ", order);
       await order.save();
       console.log("Its Done.....");
-      res.redirect(`${process.env.FRONTEND_URL}/payment-success`);
+      res.redirect(`${process.env.FRONTEND_URL}/paymentsuccess`);
     } else {
-      res.redirect(`${process.env.FRONTEND_URL}/cancelPayment`);
+      res.redirect(`${process.env.FRONTEND_URL}/paymentcancel`);
     }
   } catch (error) {
     console.error("Error processing successful payment:", error);
