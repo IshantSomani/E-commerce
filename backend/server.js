@@ -61,7 +61,7 @@ app.post("/create-checkout-session", async (req, res) => {
     line_items: lineItems,
     mode: "payment",
     success_url: `${process.env.BACKEND_URL}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${process.env.FRONTEND_URL}/cancelPayment`,
+    cancel_url: `${process.env.FRONTEND_URL}/payment-cancel`,
     metadata: {
       userId,
       customerName,
