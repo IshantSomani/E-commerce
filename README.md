@@ -40,7 +40,7 @@ To run this project, you will need to add the following environment variables to
 
 ```bash
     npm i react-router-dom
-    npm i react-cons
+    npm i react-icons
     npm i axios
     npm install @mui/material @emotion/react @emotion/styled
     npm i @mui/icons-material
