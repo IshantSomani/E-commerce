@@ -16,7 +16,6 @@ import PaymentSuccess from '../components/Payment/PaymentSuccess';
 import PaymentCancel from '../components/Payment/PaymentCancel';
 import Checkout from '../components/User/Checkout';
 import MyOrder from '../components/User/MyOrder';
-import Order from '../components/User/Order';
 import AdminProduct from '../components/Admin/AdminProduct/AdminProduct';
 import AdminOrder from '../components/Admin/AdminOrder/AdminOrder';
 import AdminUser from '../components/Admin/AdminUser/AdminUser';
@@ -88,10 +87,6 @@ const Router = createBrowserRouter([
                     {
                         path: "/myorder",
                         element: <MyOrder />
-                    },
-                    {
-                        path: "/order",
-                        element: <Order />
                     },
                     {
                         path: "/checkout",
