@@ -12,6 +12,8 @@ const SingleProduct = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        // Scroll to the top of the page when component mounts
+        window.scrollTo(0, 0);
         dispatch(fetchProducts());
     }, [dispatch]);
 
@@ -41,7 +43,7 @@ const SingleProduct = () => {
                     <div className="md:flex items-center ">
                         <div className="md:flex-shrink-0">
                             <img
-                                className="h-[75vh] w-full object-cover md:w-96"
+                                className="h-full w-full object-cover md:w-96"
                                 src={`${import.meta.env.VITE_API_URI}/${selectedProduct.productImage}`}
                                 alt={selectedProduct.productName}
                             />

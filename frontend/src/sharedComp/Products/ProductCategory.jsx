@@ -12,6 +12,8 @@ const ProductCategory = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        // Scroll to the top of the page when component mounts
+        window.scrollTo(0, 0);
         dispatch(fetchProducts());
     }, [dispatch]);
 

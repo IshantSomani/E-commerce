@@ -11,6 +11,8 @@ const Products = () => {
     const { products, status } = useSelector((state) => state.product);
 
     useEffect(() => {
+        // Scroll to the top of the page when component mounts
+        window.scrollTo(0, 0);
         dispatch(fetchProducts());
     }, [dispatch]);
 
@@ -29,7 +31,6 @@ const Products = () => {
         console.log(productId);
         navigate(`/product/${productId}`);
     };
-    
 
     if (status === STATUES.LOADING) {
         return (
@@ -61,7 +62,6 @@ const Products = () => {
                                     alt={item.productName}
                                     className='object-cover object-center w-full h-full'
                                 />
-
                             </div>
                             <div className="p-4">
                                 <h4 className='text-lg font-semibold text-gray-800 line-clamp-1'>{item.productName}</h4>
@@ -74,8 +74,8 @@ const Products = () => {
                             <button
                                 onClick={() => { handleClick(item) }}
                                 className={`w-full py-2 px-4 rounded-full font-semibold transition-colors duration-300 ${item.status
-                                        ? 'bg-orange-500 hover:bg-orange-600 text-white'
-                                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                    ? 'bg-orange-500 hover:bg-orange-600 text-white'
+                                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                                     }`}
                                 disabled={!item.status}
                             >
