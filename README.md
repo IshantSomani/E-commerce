@@ -52,7 +52,7 @@ To run this project, you will need to add the following environment variables to
 
 `Setup Payment Gatway in frontend`
 ```bash
-npm i @stripe/stripe-js
+    npm i @stripe/stripe-js
 ```
 
 #### DatatBase
