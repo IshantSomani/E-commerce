@@ -9,14 +9,13 @@ To run this project, you will need to add the following environment variables to
 
 ### Backend
       MONGODB_URI=your_mongodb_connection_string      
-      SECRET_KEY=your_jwt_secret_key 
       FRONTEND_URL=your_frontend_url 
       BACKEND_URL=your_backend_url 
-      STRIPE_SECRET_KEY=your_stripe_secret_key
+      SECRET_KEY=your_stripe_secret_key
 
 ### Frontend
     VITE_API_URI=your_backend_api_url
-    VITE_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
+    VITE_API_PUBLISHABLE_KEY=your_stripe_publishable_key
 
 
 ## Key Libraries Used
