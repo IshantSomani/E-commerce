@@ -64,7 +64,7 @@ Clone the project:
 
 ```bash
 git clone https://github.com/IshantSomani/E-commerce.git
-cd e-commerce-glory
+cd E-commerce
 ```
 
 Install dependencies for both frontend and backend:
