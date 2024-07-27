@@ -1,63 +1,50 @@
 
 # E-Commerce Glory
 
-Build a complete Ecommerce Responsive MERN | ReactJS, Redux, Nodejs, MongoDB, Express.
-
+Build a complete Ecommerce Responsive MERN stack application using ReactJS, Redux, Node.js, MongoDB, and Express.
 
 ## Environment Variables
 
-To run this project, you will need to add the following environment variables to your .env file
+To run this project, you will need to add the following environment variables to your .env file:
 
-#### Backend
+### Backend
+      MONGODB_URI=your_mongodb_connection_string      
+      SECRET_KEY=your_jwt_secret_key 
+      FRONTEND_URL=your_frontend_url 
+      BACKEND_URL=your_backend_url 
+      STRIPE_SECRET_KEY=your_stripe_secret_key
 
-`MONGODB_URI` `SECRET_KEY` `FRONTEND_URL` `BACKEND_URL`
-
-#### Frontend
-
-`VITE_API_URI` `VITE_API_PUBLISHABLE_KEY`
-
-
-## Libraries
-
-#### Backend
-```bash
-    npm i express
-    npm i mongoose
-    npm i cors
-    npm i dotenv
-    npm i bcrypt
-    npm i jsonwebtoken
-    npm i multer
-    npm i nodemon
-```
-`Setup Payment Gatway in backend`
-```bash
-    npm i stripe
-```
+### Frontend
+    VITE_API_URI=your_backend_api_url
+    VITE_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
 
 
-#### Frontend
+## Key Libraries Used
 
-```bash
-    npm i react-router-dom
-    npm i react-icons
-    npm i axios
-    npm install @mui/material @emotion/react @emotion/styled
-    npm i @mui/icons-material
-    npm install @mui/x-data-grid
-    npm install @reduxjs/toolkit
-    npm i react-redux
-    npm i jwt-decode
-```
+### Backend
+- express
+- mongoose
+- cors
+- dotenv
+- bcrypt
+- jsonwebtoken
+- multer
+- stripe
 
-`Setup Payment Gatway in frontend`
-```bash
-    npm i @stripe/stripe-js
-```
+### Frontend
+- react-router-dom
+- react-icons
+- axios
+- @mui/material
+- @mui/icons-material
+- @mui/x-data-grid
+- @reduxjs/toolkit
+- react-redux
+- jwt-decode
+- @stripe/stripe-js
 
-#### DatatBase
-`MongoDB`
-
+## Database
+- MongoDB
 
 ## Tech Stack
 
@@ -67,37 +54,44 @@ To run this project, you will need to add the following environment variables to
 
 **Database:** MongoDB
 
+**Payment Processing:** Stripe
+
 
 
 ## Run Locally
 
-Clone the project
+Clone the project:
 
 ```bash
-  git clone https://link-to-project
+git clone https://github.com/IshantSomani/E-commerce.git
+cd e-commerce-glory
 ```
 
-Go to the project directory
+Install dependencies for both frontend and backend:
 
 ```bash
-  cd my-project
+# Install backend dependencies
+cd backend
+npm install
+
+# Install frontend dependencies
+cd ../frontend
+npm install
+```
+Set up environment variables as described above.
+
+Start the backend server:
+```bash
+cd backend
+npm start
 ```
 
-Install dependencies
+In a new terminal, start the frontend development server:
 
 ```bash
-  npm install
+cd frontend
+npm run dev
 ```
 
-Start the server
-
-```bash
-  npm start
-```
-
-Start the client
-
-```bash
-  npm run dev
-```
-
+#### Contributing
+Contributions are welcome! Please feel free to submit a Pull Request.
