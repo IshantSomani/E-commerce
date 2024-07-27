@@ -45,7 +45,7 @@ const MyOrder = () => {
           {sortedOrders.map((order) => (
             <div key={order._id} className="bg-white rounded-lg shadow-lg overflow-hidden">
               <div className="bg-gray-200 px-6 py-4">
-                <h3 className="text-2xl font-bold text-gray-800">Order ID: {order._id}</h3>
+                <h3 className="text-2xl font-bold text-gray-800 break-words">Order ID: {order._id}</h3>
                 <p className="text-gray-600">Order Date: {new Date(order.createdAt).toLocaleDateString()}</p>
               </div>
               <div className="p-6">

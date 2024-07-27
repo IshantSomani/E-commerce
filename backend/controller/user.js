@@ -82,7 +82,9 @@ exports.login = async (req, res) => {
     }
 
     if (!user.status) {
-      return res.status(401).send({ message: "Account Deactivated! Please contact Admin" });
+      return res
+        .status(401)
+        .send({ message: "Account Deactivated! Please contact Admin" });
     }
     const isMatched = await bcrypt.compare(password, user.password);
     if (!isMatched) {
@@ -101,13 +103,36 @@ exports.login = async (req, res) => {
       { expiresIn: "10h" }
     );
     res.status(200).send({
-        message: "User LoggedIn",
-        data: user,
-        token: token,
-        role: user.role,
-      });
+      message: "User LoggedIn",
+      data: user,
+      token: token,
+      role: user.role,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "error" });
+  }
+};
+
+// Update password
+exports.updatePassword = async (req, res) => {
+  try {
+    const { email } = req.params.id;
+    const { password } = req.body;
+    const existingUser = await User.findOne({ email: email });
+
+    if (!existingUser) {
+      return res.status(404).send({ message: "User not found" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    existingUser.password = hashedPassword;
+
+    await existingUser.save();
+    res
+      .status(202)
+      .send({ message: "Data has been updated", data: existingUser });
+  } catch (error) {
+    return res.status(500).send({ message: "error", error: error });
   }
 };
