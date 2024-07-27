@@ -21,6 +21,9 @@ To run this project, you will need to add the following environment variables to
 ## Key Libraries Used
 
 ### Backend
+```bash
+npm i express mongoose cors dotenv bcrypt jsonwebtoken multer stripe
+```
 - express
 - mongoose
 - cors
@@ -31,6 +34,11 @@ To run this project, you will need to add the following environment variables to
 - stripe
 
 ### Frontend
+```bash
+npm i react-router-dom react-icons axios @reduxjs/toolkit react-redux jwt-decode 
+npm i @mui/material @mui/icons-material @mui/x-data-grid 
+npm i @stripe/stripe-js
+```
 - react-router-dom
 - react-icons
 - axios
