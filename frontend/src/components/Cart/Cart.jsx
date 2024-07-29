@@ -54,7 +54,7 @@ const Cart = () => {
                 ) : (
                     <div className="space-y-6 select-none">
                         {reversedCartItems.map((item) => (
-                            <div key={item._id} className="flex flex-col md:flex-row items-center bg-white shadow-lg rounded-lg overflow-hidden">
+                            <div key={item._id} className="flex flex-col md:flex-row items-center bg-white h-full shadow-lg rounded-lg overflow-hidden">
                                 <img src={`${import.meta.env.VITE_API_URI}/${item.productImage}`} alt={item.productName} className="w-full md:w-1/4 h-64 object-cover select-none" />
                                 <div className="flex-1 p-6 flex-wrap">
                                     <h2 className="text-2xl font-semibold text-gray-800 mb-2 line-clamp-1">{item.productName}</h2>
