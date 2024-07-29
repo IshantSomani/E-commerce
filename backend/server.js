@@ -60,8 +60,8 @@ app.post("/create-checkout-session", async (req, res) => {
     payment_method_types: ["card"],
     line_items: lineItems,
     mode: "payment",
-    success_url: `${process.env.BACKEND_URL}/paymentsuccess?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${process.env.FRONTEND_URL}/paymentcancel`,
+    success_url: `https://glory-backend.vercel.app/paymentsuccess?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `https://glory-three.vercel.app/paymentcancel`,
     metadata: {
       userId,
       customerName,
@@ -140,9 +140,9 @@ app.get(`/paymentsuccess`, async (req, res) => {
       console.log("Order: ", order);
       await order.save();
       console.log("Its Done.....");
-      res.redirect(`${process.env.FRONTEND_URL}/paymentsuccess`);
+      res.redirect(`https://glory-three.vercel.app/paymentsuccess`);
     } else {
-      res.redirect(`${process.env.FRONTEND_URL}/paymentcancel`);
+      res.redirect(`https://glory-three.vercel.app/paymentcancel`);
     }
   } catch (error) {
     console.error("Error processing successful payment:", error);
