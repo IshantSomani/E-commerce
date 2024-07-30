@@ -9,7 +9,7 @@ To run this project, you will need to add the following environment variables to
 
 ### Backend
     MONGODB_URI=your_mongodb_connection_string
-SECRET_KEY=your_stripe_secret_key
+    SECRET_KEY=your_stripe_secret_key
 
 ### Frontend
     VITE_API_URI=your_backend_api_url
