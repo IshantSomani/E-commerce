@@ -8,7 +8,7 @@ Build a complete Ecommerce Responsive MERN stack application using ReactJS, Redu
 To run this project, you will need to add the following environment variables to your .env file:
 
 ### Backend
-    MONGODB_URI=your_mongodb_connection_string      
+    MONGODB_URI=your_mongodb_connection_string
 SECRET_KEY=your_stripe_secret_key
 
 ### Frontend
