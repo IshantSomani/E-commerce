@@ -19,8 +19,8 @@ const ProductCategory = () => {
 
     useEffect(() => {
         const filteredProducts = products?.filter(product => product.productCategory.toLowerCase() === category);
-        console.log("filteredProducts: ", filteredProducts);
-        console.log("category: ", category);
+        // console.log("filteredProducts: ", filteredProducts);
+        // console.log("category: ", category);
         if (filteredProducts && filteredProducts.length > 0) {
             setCategoryProducts(filteredProducts);
         } else if (status !== 'loading') {
@@ -33,7 +33,7 @@ const ProductCategory = () => {
     };
 
     const handleProductClick = (productId) => {
-        console.log(productId);
+        // console.log(productId);
         navigate(`/product/${productId}`);
     };
 

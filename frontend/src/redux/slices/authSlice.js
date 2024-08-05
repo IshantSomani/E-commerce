@@ -42,7 +42,7 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(login.fulfilled, (state, action) => {
-        console.log(action.payload)
+        // console.log(action.payload)
         state.status = "idle";
         state.token = action.payload.token;
         state.role = action.payload.role;

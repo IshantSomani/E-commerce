@@ -35,7 +35,7 @@ const Home = () => {
     const navigate = useNavigate();
 
     const handleCategorySelect = (categoryId) => {
-        console.log(categoryId);
+        // console.log(categoryId);
         navigate(`/products/${categoryId}`);
     };
 

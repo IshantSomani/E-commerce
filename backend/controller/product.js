@@ -27,7 +27,7 @@ exports.createProduct = async (req,res)=>{
     try {
         const productImage = req.file.path;
         const product = new Product({productName : productName , productPrice : productPrice , productDesc : productDesc, productCategory  : productCategory , status : true , productImage : productImage});
-        console.log(product);
+        // console.log(product);
         await product.save();
         return res.status(201).send({message : "Product Created", data : product})
     } catch (error) {
@@ -41,7 +41,7 @@ exports.updateProduct = async (req,res)=>{
     const reqBody = req.body;
     try {
         const existingProduct = await Product.findById(id);
-        console.log("existingProduct: ", existingProduct);
+        // console.log("existingProduct: ", existingProduct);
         if(!existingProduct){
             return res.status(404).send({message : "Product not found"});
         }
@@ -57,9 +57,9 @@ exports.updateProduct = async (req,res)=>{
             // Add the new image path to reqBody
             reqBody.productImage = req.file.path;
         }
-        console.log("req.file: ", req.file);
+        // console.log("req.file: ", req.file);
         const product = await Product.findByIdAndUpdate(id, reqBody,{new :true});
-        console.log("product: ", product);
+        // console.log("product: ", product);
 
         res.status(202).send({message : "Product Updated",data : product});
     } catch (error) {

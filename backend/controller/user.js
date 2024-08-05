@@ -40,7 +40,7 @@ exports.deleteUser = async (req, res) => {
 
 exports.signup = async (req, res) => {
   const { firstName, lastName, email, password, contactNumber } = req.body;
-  console.log(req.file)
+  // console.log(req.file)
   try {
     const existingUser = await User.findOne({ email: email });
 
@@ -63,7 +63,7 @@ exports.signup = async (req, res) => {
       userImage: userImage,
     });
 
-    console.log("User: ", user);
+    // console.log("User: ", user);
     
     await user.save();
     return res.status(201).send({ message: "User Created", data: user });
@@ -75,7 +75,7 @@ exports.signup = async (req, res) => {
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;
-  console.log("Login Api", req.body);
+  // console.log("Login Api", req.body);
 
   try {
     const user = await User.findOne({ email: email });

@@ -28,7 +28,7 @@ const Products = () => {
     };
 
     const handleProductClick = (productId) => {
-        console.log(productId);
+        // console.log(productId);
         navigate(`/product/${productId}`);
     };
 
