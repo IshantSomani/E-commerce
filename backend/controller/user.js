@@ -59,7 +59,7 @@ exports.signup = async (req, res) => {
       contactNumber: contactNumber,
       status: true,
       role: "user",
-      userImage: userImage,
+      // userImage: userImage,
     });
 
     await user.save();
