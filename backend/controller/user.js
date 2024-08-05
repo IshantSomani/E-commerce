@@ -59,9 +59,11 @@ exports.signup = async (req, res) => {
       contactNumber: contactNumber,
       status: true,
       role: "user",
-      // userImage: userImage,
+      userImage: null,
     });
 
+    console.log("User: ", user);
+    
     await user.save();
     return res.status(201).send({ message: "User Created", data: user });
   } catch (error) {
