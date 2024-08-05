@@ -107,7 +107,7 @@ const Signup = () => {
                                 onChange={handleChange}
                             />
                         </div>
-                        <div>
+                        {/* <div>
                             <div className="relative">
                                 <input
                                     type="file"
@@ -131,7 +131,7 @@ const Signup = () => {
                                 </label>
                             </div>
 
-                        </div>
+                        </div> */}
                     </div>
 
                     <div>

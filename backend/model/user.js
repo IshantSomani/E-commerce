@@ -8,7 +8,7 @@ const userSchema = mongoose.Schema({
     contactNumber : {type : String , required : true},
     role : {type : String , required : true},
     status : {type : Boolean , required : true},
-    userImage : {type : String , required  : true}
+    userImage : {type : String , require  : true}
     
 });
 
