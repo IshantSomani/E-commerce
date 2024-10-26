@@ -21,7 +21,8 @@ const Checkout = () => {
             products: cartItems,
         };
         try {
-            const stripe = await loadStripe(`${import.meta.env.VITE_API_PUBLISHABLE_KEY}`);
+            // const stripe = await loadStripe(`${import.meta.env.VITE_API_PUBLISHABLE_KEY}`);
+            const stripe = await loadStripe(`pk_test_51PfcxSEKdqFhA5ayhxp1Xud52WQ2imf23oGgZH1GxKS1JN9xgVigV5F88W9ptaoa99S7b3EUCYdH0cSWQsyqHc66001di3DKfE`);
             const body = orderDetails
 
             const response = await axios.post(`${import.meta.env.VITE_API_URI}/create-checkout-session`, body)
