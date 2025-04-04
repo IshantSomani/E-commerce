@@ -3,6 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../../redux/slices/productSlice';
 import { add } from '../../redux/slices/cartSlice';
+import { FiShoppingCart, FiEye, FiArrowLeft } from 'react-icons/fi';
+import LoadingSpinner from '../LoadingSpinner';
 
 const ProductCategory = () => {
     const { category } = useParams();
@@ -12,15 +14,15 @@ const ProductCategory = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Scroll to the top of the page when component mounts
         window.scrollTo(0, 0);
         dispatch(fetchProducts());
     }, [dispatch]);
 
     useEffect(() => {
-        const filteredProducts = products?.filter(product => product.productCategory.toLowerCase() === category);
-        // console.log("filteredProducts: ", filteredProducts);
-        // console.log("category: ", category);
+        const filteredProducts = products?.filter(
+            product => product.productCategory.toLowerCase() === category.toLowerCase()
+        );
+
         if (filteredProducts && filteredProducts.length > 0) {
             setCategoryProducts(filteredProducts);
         } else if (status !== 'loading') {
@@ -28,55 +30,115 @@ const ProductCategory = () => {
         }
     }, [products, category, navigate, status]);
 
-    const handleClick = (product) => {
+    const handleAddToCart = (product) => {
         dispatch(add(product));
     };
 
     const handleProductClick = (productId) => {
-        // console.log(productId);
         navigate(`/product/${productId}`);
     };
 
-    if (status === 'loading') return <div className="flex items-center justify-center h-screen text-3xl font-bold text-gray-700">Loading...</div>
-    if (status === 'error') return <div className="flex items-center justify-center h-screen text-3xl font-bold text-red-600">Error loading products.</div>
-    if (categoryProducts.length === 0) return <div className="flex items-center justify-center h-screen text-3xl font-bold text-gray-700">No products found in this category.</div>
+    if (status === 'loading') return <LoadingSpinner />;
+    if (status === 'error') return (
+        <div className="flex flex-col items-center justify-center h-screen">
+            <h2 className="text-2xl font-bold text-red-500 mb-4">Error loading products</h2>
+            <button
+                onClick={() => dispatch(fetchProducts())}
+                className="px-6 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition"
+            >
+                Try Again
+            </button>
+        </div>
+    );
+
+    if (categoryProducts.length === 0) return (
+        <div className="flex flex-col items-center justify-center h-screen">
+            <h2 className="text-2xl font-bold text-gray-700 mb-4">No products found in this category</h2>
+            <button
+                onClick={() => navigate('/')}
+                className="flex items-center gap-2 px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition"
+            >
+                <FiArrowLeft className="w-4 h-4" />
+                Back to Home
+            </button>
+        </div>
+    );
 
     return (
-        <div className="bg-gray-100 min-h-screen">
-            <div className="container mx-auto px-4 py-12">
-                <h1 className="text-4xl font-bold mb-8 text-gray-800 text-center">{category.charAt(0).toUpperCase() + category.slice(1)} Products</h1>
-                <div className="text-lg font-semibold text-gray-700 mb-4 text-center">
-                    Total Products: {categoryProducts.length}
+        <div className="min-h-screen bg-gray-50">
+            <div className="px-8 py-12">
+                <div className="mb-8">
+                    <button
+                        onClick={() => navigate(-1)}
+                        className="flex items-center gap-2 text-gray-600 hover:text-neutral-900 transition mb-4"
+                    >
+                        <FiArrowLeft className="w-5 h-5" />
+                        Back
+                    </button>
+
+                    <h1 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-2 text-center">
+                        {category.charAt(0).toUpperCase() + category.slice(1)}
+                    </h1>
+                    <div className="text-lg font-medium text-gray-700 mb-8">
+                        {categoryProducts.length} {categoryProducts.length === 1 ? 'product' : 'products'} available
+                    </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 select-none">
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                     {categoryProducts.map((product) => (
-                        <div key={product.id} className="bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1">
+                        <div
+                            key={product._id}
+                            className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 group"
+                        >
                             <div className="relative">
-                                <img
-                                    className="w-full h-[70vh] object-cover"
-                                    src={`${import.meta.env.VITE_API_URI}/${product.productImage}`}
-                                    alt={product.productName}
+                                <div
+                                    className="aspect-square overflow-hidden cursor-pointer"
                                     onClick={() => handleProductClick(product._id)}
-                                />
-                                {/* <div className="absolute top-0 right-0 bg-white m-2 px-2 py-1 rounded-full text-sm font-semibold">
-                                    {product.status ? 'In Stock' : 'Out of Stock'}
-                                </div> */}
-                            </div>
-                            <div className="p-6">
-                                <h2 className="text-xl font-bold line-clamp-1 text-gray-900 mb-2 hover:text-orange-500 cursor-pointer" onClick={() => handleProductClick(product._id)}>{product.productName}</h2>
-                                {/* <p className="text-gray-600 text-sm mb-4 line-clamp-3">{product.productDesc}</p> */}
-                                <div className="font-bold mb-4">
-                                    <span className="text-2xl text-orange-500">₹{product.productPrice}</span>
-                                </div>
-                                <button
-                                    onClick={() => handleClick(product)}
-                                    className={`w-full py-3 px-4 font-semibold text-white rounded-full transition-colors duration-300 ${product.status
-                                        ? 'bg-orange-500 hover:bg-orange-600'
-                                        : 'bg-gray-300 cursor-not-allowed'
-                                        }`}
-                                    disabled={!product.status}
                                 >
-                                    {product.status ? 'Add to cart' : 'Out of stock'}
+                                    <img
+                                        src={`${import.meta.env.VITE_API_URI}/${product.productImage}`}
+                                        alt={product.productName}
+                                        className="w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                        loading='lazy'
+                                    />
+                                </div>
+                                <div className="absolute top-3 right-3 flex flex-col gap-2">
+                                    <button
+                                        onClick={() => handleProductClick(product._id)}
+                                        className="p-2 bg-white/90 backdrop-blur-sm rounded-full shadow hover:bg-white transition"
+                                        aria-label="Quick view"
+                                    >
+                                        <FiEye className="w-4 h-4 text-gray-700" />
+                                    </button>
+                                </div>
+                                {!product.status && (
+                                    <div className="absolute top-0 left-0 bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-br-lg">
+                                        Out of Stock
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="p-5">
+                                <h3
+                                    onClick={() => handleProductClick(product._id)}
+                                    className="text-lg font-semibold text-neutral-900 mb-1 cursor-pointer hover:text-indigo-600 transition line-clamp-1"
+                                >
+                                    {product.productName}
+                                </h3>
+                                <p className="text-xl font-bold text-neutral-900 mb-4">
+                                    ₹{product.productPrice.toLocaleString()}
+                                </p>
+
+                                <button
+                                    onClick={() => handleAddToCart(product)}
+                                    disabled={!product.status}
+                                    className={`w-full flex items-center justify-center gap-2 py-3 px-4 rounded-lg font-medium transition-all ${product.status
+                                        ? 'bg-blue-900 text-white hover:bg-blue-950 shadow hover:shadow-md'
+                                        : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                                        }`}
+                                >
+                                    <FiShoppingCart className="w-5 h-5" />
+                                    {product.status ? 'Add to Cart' : 'Out of Stock'}
                                 </button>
                             </div>
                         </div>
@@ -85,6 +147,6 @@ const ProductCategory = () => {
             </div>
         </div>
     );
-}
+};
 
 export default ProductCategory;

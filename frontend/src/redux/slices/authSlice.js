@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const login = createAsyncThunk("auth/login", async (email) => {
-  // console.log(email)
   const response = await axios.post( `${import.meta.env.VITE_API_URI}/users/login`, email );
   localStorage.setItem("token", response.data.token);
   localStorage.setItem("role", response.data.role);
@@ -42,7 +41,6 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(login.fulfilled, (state, action) => {
-        // console.log(action.payload)
         state.status = "idle";
         state.token = action.payload.token;
         state.role = action.payload.role;
@@ -51,7 +49,6 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(login.rejected, (state, action) => {
-        // console.log(action)
         state.status = "failed";
         state.error = action.error.message;
       });

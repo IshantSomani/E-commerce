@@ -38,7 +38,6 @@ export const deleteProduct = createAsyncThunk('products/deleteProduct', async (i
 });
 
 export const updateProduct = createAsyncThunk('products/updateProduct', async ( { id, updatedProduct }) => {
-  // console.log(updateProduct)
    const formData = new FormData();
       
       // Append all updatedProduct fields to formData

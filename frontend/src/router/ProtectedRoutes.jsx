@@ -7,8 +7,7 @@ const ProtectedRoutes = ({ allowedRole }) => {
 
   const navigate = useNavigate();
   const { auth, role } = useSelector((state) => state.auth);
-
-  console.log(role);
+  
   useEffect(() => {
     if (!auth) {
       return navigate("/login")

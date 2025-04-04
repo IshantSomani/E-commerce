@@ -11,7 +11,7 @@ const PaymentSuccess = () => {
     }, [dispatch]);
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-green-400 to-blue-500">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-green-400 to-indigo-500">
             <div className="bg-white p-8 rounded-xl shadow-2xl max-w-md w-full text-center transform transition-all hover:scale-105 duration-300">
                 <div className="mb-8">
                     <svg className="w-20 h-20 mx-auto text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -31,7 +31,7 @@ const PaymentSuccess = () => {
                     </Link>
                     <Link 
                         to="/myorder" 
-                        className="block w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg"
+                        className="block w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg"
                     >
                         View Orders
                     </Link>

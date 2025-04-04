@@ -31,7 +31,7 @@ exports.createProduct = async (req,res)=>{
         await product.save();
         return res.status(201).send({message : "Product Created", data : product})
     } catch (error) {
-        console.log(error)
+        console.error(error)
         return res.status(500).send({message : "error", error : error});
     }
 }
@@ -39,6 +39,7 @@ exports.createProduct = async (req,res)=>{
 exports.updateProduct = async (req,res)=>{
     const id = req.params.id;
     const reqBody = req.body;
+
     try {
         const existingProduct = await Product.findById(id);
         // console.log("existingProduct: ", existingProduct);
@@ -57,13 +58,12 @@ exports.updateProduct = async (req,res)=>{
             // Add the new image path to reqBody
             reqBody.productImage = req.file.path;
         }
-        // console.log("req.file: ", req.file);
         const product = await Product.findByIdAndUpdate(id, reqBody,{new :true});
         // console.log("product: ", product);
 
         res.status(202).send({message : "Product Updated",data : product});
     } catch (error) {
-        console.log(error)
+        console.error(error)
         res.status(500).send({message : "error"});
     }
 }
@@ -74,7 +74,7 @@ exports.deleteProduct = async (req,res)=>{
         const product = await Product.findByIdAndDelete(id);
         res.status(200).send({message : "Product deleted",data : product});
     } catch (error) {
-        console.log(error);
+        console.error(error);
         res.status(500).send({message : "error"})
     }
     
