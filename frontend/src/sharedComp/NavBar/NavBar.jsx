@@ -34,13 +34,14 @@ const NavBar = () => {
                 <div className="flex justify-between h-16 items-center">
                     {/* Logo */}
                     <div className="flex-shrink-0 flex items-center">
-                        <NavLink to="/" className="flex items-center">
-                            <img 
+                        <NavLink to="/" className="flex items-center yeseva">
+                            {/* <img 
                                 src={LOGO} 
                                 alt="GLORY" 
                                 className="h-10 md:h-12 transition-transform hover:scale-105"
                                 style={{ filter: "drop-shadow(0.1rem 0.1rem 0.2rem rgba(0, 0, 0, 0.3))" }}
-                            />
+                            /> */}
+                            GLORY
                         </NavLink>
                     </div>
 
