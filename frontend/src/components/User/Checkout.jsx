@@ -30,14 +30,10 @@ const Checkout = () => {
             products: cartItems,
         };
         try {
-            const stripe = await loadStripe(`${import.meta.env.VITE_API_PUBLISHABLE_KEY}`);
-            const body = orderDetails
+            const response = await axios.post(`${import.meta.env.VITE_API_URI}/create-checkout-session`, orderDetails)
 
-            const response = await axios.post(`${import.meta.env.VITE_API_URI}/create-checkout-session`, body)
-
-            const result = stripe.redirectToCheckout({
-                sessionId: response.data.id
-            });
+            const { session_url } = response.data
+            window.location.replace(session_url)
         } catch (error) {
             console.error(error);
             alert('Payment failed. Please try again.');

@@ -33,116 +33,114 @@ app.use("/orders", orderRoutes);
 
 // Create a new checkout session
 app.post("/create-checkout-session", async (req, res) => {
-  const {
-    products,
-    userId,
-    customerName,
-    customerContactNumber,
-    address,
-    pinCode,
-  } = req.body;
-  // console.log("Pyment products: ", products)
-
-  // Creating line items for the checkout session
-  const lineItems = products.map((product) => ({
-    price_data: {
-      currency: "inr",
-      product_data: {
-        name: product.productName,
-      },
-      unit_amount: product.productPrice * 100,
-    },
-    quantity: product.quantity,
-  }));
-
-  // Creating a new checkout session
-  const session = await stripe.checkout.sessions.create({
-    payment_method_types: ["card"],
-    line_items: lineItems,
-    mode: "payment",
-    success_url: `https://glory-backend.vercel.app/paymentsuccess?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `https://glory-three.vercel.app/paymentcancel`,
-    metadata: {
+  try {
+    const {
+      products,
       userId,
       customerName,
       customerContactNumber,
       address,
       pinCode,
-      productDetails: JSON.stringify(
-        products.map((p) => ({ id: p._id, quantity: p.quantity }))
-      ),
-    },
-  });
+    } = req.body;
+    const { origin } = req.headers;
 
-  // Sending the session ID as a response
-  res.json({ id: session.id });
-  console.log(
-    "session id: ",
-    session.id,
-    "success_url: ",
-    session.success_url,
-    "cancel_url: ",
-    session.cancel_url,
-    "metadata: ",
-    session.metadata
-  );
-  // const order = new Order({
-  //     product : products , userId , customerName , customerContactNumber , address , pinCode : +pinCode , transactionId : session.id,  paymentStatus: 'success'
-  // });
-  // await order.save();
-});
+    // Validate required fields
+    if (!products || !Array.isArray(products)) {
+      return res.status(400).json({ error: "Invalid products data" });
+    }
 
-// Handle payment success
-app.get(`/paymentsuccess`, async (req, res) => {
-  const { session_id } = req.query;
-  // console.log("session_id: ", session_id);
+    // Prepare line items for Stripe
+    const lineItems = products.map((product) => {
+      if (!product.productName || !product.productPrice || !product.quantity) {
+        throw new Error("Invalid product data");
+      }
+      return {
+        price_data: {
+          currency: "inr",
+          product_data: {
+            name: product.productName,
+            images: product.productImages ? [product.productImages[0]] : [],
+          },
+          unit_amount: Math.round(product.productPrice * 100),
+        },
+        quantity: product.quantity,
+      };
+    });
 
-  try {
-    const session = await stripe.checkout.sessions.retrieve(session_id);
-    //   console.log("session:", session);
-    //   console.log("session.metadata:", session.metadata);
-
-    if (session.payment_status === "paid") {
-      // Payment was successful, now retrieve the order details from metadata
-      const {
+    // Create checkout session first
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      success_url: `${origin}/paymentsuccess?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/paymentcancel`,
+      line_items: lineItems,
+      mode: "payment",
+      metadata: {
         userId,
         customerName,
         customerContactNumber,
         address,
         pinCode,
-        productDetails,
-      } = session.metadata;
+        productDetails: JSON.stringify(
+          products.map((p) => ({
+            id: p._id,
+            quantity: p.quantity,
+            price: p.productPrice,
+            name: p.productName,
+          }))
+        ),
+      },
+      shipping_address_collection: {
+        allowed_countries: ["IN"],
+      },
+    });
 
-      // Fetch full product details from your database
-      const productDetailsArray = JSON.parse(productDetails);
-      const productIds = productDetailsArray.map((p) => p.id);
-      const products = await product.find({ _id: { $in: productIds } });
+    // Now create the order with the session ID
+    const order = new Order({
+      products: products.map(p => ({
+        product: p._id,
+        quantity: p.quantity,
+        price: p.productPrice
+      })),
+      userId,
+      customerName,
+      customerContactNumber,
+      address,
+      pinCode,
+      transactionId: session.id,
+      paymentStatus: 'pending',
+      totalAmount: products.reduce((sum, p) => sum + (p.productPrice * p.quantity), 0)
+    });
 
-      const orderProducts = products.map((product) => {
-        const details = productDetailsArray.find(
-          (p) => p.id === product._id.toString()
-        );
-        return {
-          ...product.toObject(),
-          quantity: details.quantity,
-        };
-      });
-      const order = new Order({
-        product: orderProducts,
-        userId,
-        customerName,
-        customerContactNumber,
-        address,
-        pinCode: +pinCode,
-        transactionId: session_id,
-        paymentStatus: "success",
-      });
-      console.log("Order: ", order);
-      await order.save();
-      console.log("Its Done.....");
-      res.redirect(`https://glory-three.vercel.app/paymentsuccess`);
+    await order.save();
+
+    return res.status(200).json({ success: true, message: 'Order placed successfully with Stripe', session_url: session.url });
+
+  } catch (error) {
+    console.error("Error creating checkout session:", error);
+    return res.status(500).json({
+      error: "Failed to create checkout session",
+      message: error.message
+    });
+  }
+});
+
+// Handle payment success
+app.get(`/paymentsuccess`, async (req, res) => {
+  const { session_id } = req.query;
+  const { origin } = req.headers;
+
+  try {
+    const session = await stripe.checkout.sessions.retrieve(session_id);
+
+    if (session.payment_status === "paid") {
+      // Update the existing order's payment status
+      await Order.updateOne(
+        { transactionId: session_id },
+        { $set: { paymentStatus: "success" } }
+      );
+      res.redirect(`${origin}/paymentsuccess`);
     } else {
-      res.redirect(`https://glory-three.vercel.app/paymentcancel`);
+      res.redirect(`${origin}/paymentcancel`);
     }
   } catch (error) {
     console.error("Error processing successful payment:", error);

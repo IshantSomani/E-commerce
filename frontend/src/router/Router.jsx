@@ -23,6 +23,7 @@ const AdminProduct = React.lazy(() => import('../components/Admin/AdminProduct/A
 const AdminOrder = React.lazy(() => import('../components/Admin/AdminOrder/AdminOrder'));
 const AdminUser = React.lazy(() => import('../components/Admin/AdminUser/AdminUser'));
 const About = React.lazy(() => import('../sharedComp/about/About'));
+const NotFound = React.lazy(() => import('./NotFound'))
 
 const Router = createBrowserRouter([
     {
@@ -55,6 +56,10 @@ const Router = createBrowserRouter([
                     {
                         path: "/cart",
                         element: <Suspense fallback={<LoadingSpinner />}><Cart /></Suspense>
+                    },
+                    {
+                        path: "*",
+                        element: <Suspense fallback={<LoadingSpinner />}><NotFound /></Suspense>
                     },
                 ]
             },

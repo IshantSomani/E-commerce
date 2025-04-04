@@ -4,7 +4,6 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { logout } from '../../redux/slices/authSlice';
 import { CiBoxes, CiShoppingCart, CiUser } from 'react-icons/ci';
 import { MdLogout, MdMenu, MdClose } from 'react-icons/md';
-import LOGO from '../../assets/LOGO.png';
 
 const NavBar = () => {
     const dispatch = useDispatch();
@@ -18,6 +17,16 @@ const NavBar = () => {
         localStorage.clear();
         dispatch(logout());
         navigate("/");
+    };
+
+    const handleAdminPanelClick = () => {
+        navigate("/login", {
+            state: {
+                isAdminLogin: true,
+                defaultEmail: "admin@gmail.com",
+                defaultPassword: "123"
+            }
+        });
     };
 
     // Active link style for desktop
@@ -35,51 +44,51 @@ const NavBar = () => {
                     {/* Logo */}
                     <div className="flex-shrink-0 flex items-center">
                         <NavLink to="/" className="flex items-center yeseva">
-                            {/* <img 
-                                src={LOGO} 
-                                alt="GLORY" 
-                                className="h-10 md:h-12 transition-transform hover:scale-105"
-                                style={{ filter: "drop-shadow(0.1rem 0.1rem 0.2rem rgba(0, 0, 0, 0.3))" }}
-                            /> */}
                             GLORY
                         </NavLink>
                     </div>
 
                     {/* Desktop Navigation */}
                     <div className="hidden md:flex items-center space-x-8">
-                        <NavLink 
-                            to="/" 
+                        <NavLink
+                            to="/"
                             end
-                            className={({ isActive }) => 
+                            className={({ isActive }) =>
                                 `px-1 py-2 text-sm font-medium transition-colors duration-200 ${isActive ? activeDesktopLink : inactiveDesktopLink}`
                             }
                         >
                             Home
                         </NavLink>
-                        <NavLink 
-                            to="/products" 
-                            className={({ isActive }) => 
+                        <NavLink
+                            to="/products"
+                            className={({ isActive }) =>
                                 `px-1 py-2 text-sm font-medium transition-colors duration-200 ${isActive ? activeDesktopLink : inactiveDesktopLink}`
                             }
                         >
                             Shop
                         </NavLink>
-                        <NavLink 
-                            to="/about" 
-                            className={({ isActive }) => 
+                        <NavLink
+                            to="/about"
+                            className={({ isActive }) =>
                                 `px-1 py-2 text-sm font-medium transition-colors duration-200 ${isActive ? activeDesktopLink : inactiveDesktopLink}`
                             }
                         >
                             About
                         </NavLink>
+                        <button
+                            onClick={handleAdminPanelClick}
+                            className='px-1 py-2 text-sm font-medium transition-colors duration-200 text-gray-700 hover:text-indigo-600 hover:font-semibold hover:border-b-2 hover:border-indigo-500'
+                        >
+                            Admin Panel
+                        </button>
                     </div>
 
                     {/* Right side icons */}
                     <div className="flex items-center space-x-4">
                         {/* Cart Icon */}
                         <div className="relative">
-                            <button 
-                                onClick={() => navigate("/cart")} 
+                            <button
+                                onClick={() => navigate("/cart")}
                                 className="p-2 rounded-full text-gray-700 hover:text-neutral-900 hover:bg-gray-100 transition-colors duration-200 relative"
                             >
                                 <CiShoppingCart className="w-5 h-5" />
@@ -94,7 +103,7 @@ const NavBar = () => {
                         {auth ? (
                             <div className="relative">
                                 {/* Profile Avatar */}
-                                <button 
+                                <button
                                     onClick={() => setProfileMenuOpen(!profileMenuOpen)}
                                     className="flex items-center space-x-1 focus:outline-none"
                                 >
@@ -107,7 +116,7 @@ const NavBar = () => {
                                 {profileMenuOpen && (
                                     <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
                                         <div className="py-1">
-                                            <div 
+                                            <div
                                                 onClick={() => { navigate("/profile"); setProfileMenuOpen(false); }}
                                                 className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
                                             >
@@ -116,7 +125,7 @@ const NavBar = () => {
                                             </div>
 
                                             {role === "user" ? (
-                                                <div 
+                                                <div
                                                     onClick={() => { navigate("/myorder"); setProfileMenuOpen(false); }}
                                                     className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
                                                 >
@@ -125,21 +134,21 @@ const NavBar = () => {
                                                 </div>
                                             ) : (
                                                 <>
-                                                    <div 
+                                                    <div
                                                         onClick={() => { navigate("/adminuser"); setProfileMenuOpen(false); }}
                                                         className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
                                                     >
                                                         <CiUser className="mr-2" />
                                                         Users
                                                     </div>
-                                                    <div 
+                                                    <div
                                                         onClick={() => { navigate("/adminorder"); setProfileMenuOpen(false); }}
                                                         className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
                                                     >
                                                         <CiShoppingCart className="mr-2" />
                                                         Orders
                                                     </div>
-                                                    <div 
+                                                    <div
                                                         onClick={() => { navigate("/adminproduct"); setProfileMenuOpen(false); }}
                                                         className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
                                                     >
@@ -149,7 +158,7 @@ const NavBar = () => {
                                                 </>
                                             )}
 
-                                            <div 
+                                            <div
                                                 onClick={handleLogOut}
                                                 className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
                                             >
@@ -162,17 +171,17 @@ const NavBar = () => {
                             </div>
                         ) : (
                             <div className="hidden md:flex items-center space-x-3">
-                                <NavLink 
-                                    to="/login" 
-                                    className={({ isActive }) => 
+                                <NavLink
+                                    to="/login"
+                                    className={({ isActive }) =>
                                         `px-4 py-2 text-sm font-medium transition-colors duration-200 ${isActive ? 'text-indigo-600 font-semibold' : 'text-gray-700 hover:text-neutral-900'}`
                                     }
                                 >
                                     Login
                                 </NavLink>
-                                <NavLink 
-                                    to="/signup" 
-                                    className={({ isActive }) => 
+                                <NavLink
+                                    to="/signup"
+                                    className={({ isActive }) =>
                                         `px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 shadow-sm ${isActive ? 'bg-blue-900 text-white' : 'bg-blue-900 text-white hover:bg-blue-950'}`
                                     }
                                 >
@@ -182,7 +191,7 @@ const NavBar = () => {
                         )}
 
                         {/* Mobile menu button */}
-                        <button 
+                        <button
                             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                             className="md:hidden p-2 rounded-md text-gray-700 hover:text-neutral-900 hover:bg-gray-100 focus:outline-none"
                         >
@@ -200,44 +209,50 @@ const NavBar = () => {
             {mobileMenuOpen && (
                 <div className="md:hidden bg-white border-t border-gray-200">
                     <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                        <NavLink 
-                            to="/" 
+                        <NavLink
+                            to="/"
                             end
-                            className={({ isActive }) => 
+                            className={({ isActive }) =>
                                 `block px-3 py-2 rounded-md text-base font-medium ${isActive ? activeMobileLink : inactiveMobileLink}`
                             }
                         >
                             Home
                         </NavLink>
-                        <NavLink 
-                            to="/products" 
-                            className={({ isActive }) => 
+                        <NavLink
+                            to="/products"
+                            className={({ isActive }) =>
                                 `block px-3 py-2 rounded-md text-base font-medium ${isActive ? activeMobileLink : inactiveMobileLink}`
                             }
                         >
                             Shop
                         </NavLink>
-                        <NavLink 
-                            to="/about" 
-                            className={({ isActive }) => 
+                        <NavLink
+                            to="/about"
+                            className={({ isActive }) =>
                                 `block px-3 py-2 rounded-md text-base font-medium ${isActive ? activeMobileLink : inactiveMobileLink}`
                             }
                         >
                             About
                         </NavLink>
+                        <button
+                            onClick={handleAdminPanelClick}
+                            className={`block px-3 py-2 rounded-md text-base font-medium ${inactiveMobileLink}`}
+                        >
+                            Admin Panel
+                        </button>
                         {!auth && (
                             <>
-                                <NavLink 
-                                    to="/login" 
-                                    className={({ isActive }) => 
+                                <NavLink
+                                    to="/login"
+                                    className={({ isActive }) =>
                                         `block px-3 py-2 rounded-md text-base font-medium ${isActive ? activeMobileLink : inactiveMobileLink}`
                                     }
                                 >
                                     Login
                                 </NavLink>
-                                <NavLink 
-                                    to="/signup" 
-                                    className={({ isActive }) => 
+                                <NavLink
+                                    to="/signup"
+                                    className={({ isActive }) =>
                                         `block px-3 py-2 rounded-md text-base font-medium ${isActive ? 'bg-blue-900 text-white' : 'bg-blue-900 text-white hover:bg-blue-950'}`
                                     }
                                 >

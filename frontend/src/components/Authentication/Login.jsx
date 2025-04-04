@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../redux/slices/authSlice';
 import { FaArrowRight, FaLock, FaEnvelope } from 'react-icons/fa';
 import { FiUserPlus } from 'react-icons/fi';
 
 const Login = () => {
-    const [formData, setFormData] = useState({});
+    const location = useLocation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { auth } = useSelector((state) => state.auth);
+
+    // Initialize formData with default values from location state
+    const [formData, setFormData] = useState({
+        email: location.state?.defaultEmail || '',
+        password: location.state?.defaultPassword || ''
+    });
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -32,7 +38,10 @@ const Login = () => {
                 {/* Decorative Header */}
                 <div className="bg-blue-950 py-6 px-8 text-center">
                     <h2 className="text-2xl font-bold text-white">Welcome Back</h2>
-                    <p className="text-indigo-100 mt-1">Login to access your account</p>
+                    {location.state?.isAdminLogin ? (
+                        <p className="text-indigo-100 mt-1">Admin login credentials pre-filled</p>
+                    ) : <p className="text-indigo-100 mt-1">Login to access your account</p>
+                    }
                 </div>
 
                 <div className="p-8">
@@ -70,6 +79,7 @@ const Login = () => {
                                 required
                                 className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg bg-gray-50 placeholder-gray-400 transition duration-150"
                                 placeholder="Email address"
+                                value={formData.email}
                                 onChange={handleChange}
                             />
                         </div>
@@ -87,6 +97,7 @@ const Login = () => {
                                 required
                                 className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg bg-gray-50 placeholder-gray-400 transition duration-150"
                                 placeholder="Password"
+                                value={formData.password}
                                 onChange={handleChange}
                             />
                         </div>
