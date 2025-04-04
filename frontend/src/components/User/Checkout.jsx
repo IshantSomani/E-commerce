@@ -31,8 +31,11 @@ const Checkout = () => {
         };
         try {
             const stripe = await loadStripe(`${import.meta.env.VITE_API_PUBLISHABLE_KEY}`);
-            const response = await axios.post(`${import.meta.env.VITE_API_URI}/create-checkout-session`, orderDetails);
-            await stripe.redirectToCheckout({
+            const body = orderDetails
+
+            const response = await axios.post(`${import.meta.env.VITE_API_URI}/create-checkout-session`, body)
+
+            const result = stripe.redirectToCheckout({
                 sessionId: response.data.id
             });
         } catch (error) {
